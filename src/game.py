@@ -5,6 +5,7 @@ import pygame as pg
 from src.character.farmer import Farmer
 from src.contants import MAX_FPS
 from src.scenary.grass import Grass
+from src.scenary.tree import Tree
 from src.utils.path import FileGetter
 from src.settings import global_screen
 
@@ -25,7 +26,9 @@ class WeedReaper:
 
         self._game_state = {
             "is_over": False,
-            "grass_positions": []
+            "grass_positions": [],
+            "tree_positions": [],
+            "bush_positions": []
         }
 
         self._farmer = Farmer()
@@ -41,10 +44,14 @@ class WeedReaper:
         index_of_farmer_animation = 0
         last_key_pressed = None
 
-        self._generate_grass_positions()
+        self._generate_random_positions("grass_positions")
+        self._generate_random_positions("tree_positions", 10)
+        self._generate_random_positions("bush_positions", 12)
         grass = Grass()
+        tree = Tree("Arvore.png")
+        bush = Tree("Arbusto.png")
 
-        def _move_character(keyname):
+        def _move_character(keyname: str):
             nonlocal index_of_farmer_animation
             nonlocal last_key_pressed
 
@@ -91,11 +98,14 @@ class WeedReaper:
                     _move_character(pg.key.name(event.key))
             self._main_game_screen.blit(self._bg_image, (0, 0))
 
-            self.generate_grass(
-                self._game_state["grass_positions"],
+            self.generate_object_by_position_list(
+                "grass_positions",
                 grass
             )
             grass.move_grass()
+
+            self.generate_object_by_position_list("tree_positions", tree)
+            self.generate_object_by_position_list("bush_positions", bush)
 
             self._farmer.draw(
                 self._farmer.initial_sprite,
@@ -111,9 +121,12 @@ class WeedReaper:
             pg.display.update()
             self._main_game_clock.tick(MAX_FPS)
 
-    def generate_grass(self, grass_positions: list, grass: Grass):
-        for pos in grass_positions:
-            grass.draw(self._main_game_screen, "grass_1", pos[1], pos[0])
+    def generate_object_by_position_list(self, key_of_list: str, object_to_draw):
+        for pos in self._game_state[key_of_list]:
+            if isinstance(object_to_draw, Grass):
+                object_to_draw.draw(self._main_game_screen, "grass_1", pos[1], pos[0])
+            else:
+                object_to_draw.draw(self._main_game_screen, pos[1], pos[0])
 
     def move(self, key, index):
         speed_in_y = 0
@@ -195,14 +208,14 @@ class WeedReaper:
 
         return collided
 
-    def _generate_grass_positions(self, quantity_of_grass: int = 100):
-        self._game_state["grass_positions"] = []
+    def _generate_random_positions(self, key_of_state: str, quantity_of_grass: int = 100):
+        self._game_state[key_of_state] = []
 
         for _ in range(quantity_of_grass):
             row = random.randrange(0, self.width)
             col = random.randrange(0, self.height)
 
-            self._game_state["grass_positions"].append((row, col))
+            self._game_state[key_of_state].append((row, col))
 
     def _game_over(self):
         self._game_state["is_over"] = True
@@ -256,7 +269,9 @@ class WeedReaper:
     def _resize(self):
         current_size = self._main_game_screen.get_size()
 
-        self._generate_grass_positions()
+        self._generate_random_positions("grass_positions")
+        self._generate_random_positions("tree_positions", 10)
+        self._generate_random_positions("bush_positions", 12)
         self._bg_image = pg.transform.scale(self._bg_image, current_size)
 
     @property
