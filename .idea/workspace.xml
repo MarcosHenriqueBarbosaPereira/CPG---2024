@@ -5,12 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56d93896-dc1a-4184-9f69-035c2da94828" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/CPG - 2024.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.py" afterDir="false" />
+    </list>
+    <list id="9ce69b31-68d6-4afa-8889-6911d908224c" name="Changes by Dimitri" comment="" />
+    <list id="2f1ca671-2df6-4245-9548-df08f5a3831c" name="Changes by pedro" comment="">
+      <change beforePath="$PROJECT_DIR$/src/contants/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.py" afterDir="false" />
+    </list>
+    <list id="feda1d1a-00f8-417b-8768-83ebf4b2fd9c" name="Changes by Pedro Augusto B." comment="">
+      <change beforePath="$PROJECT_DIR$/src/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,9 +32,33 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/game.py">
+      <ranges>
+        <range start1="0" end1="0" start2="0" end2="2" changelist="feda1d1a-00f8-417b-8768-83ebf4b2fd9c" />
+        <range start1="2" end1="2" start2="4" end2="5" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="3" end1="3" start2="6" end2="7" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="4" end1="4" start2="8" end2="9" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="19" end1="19" start2="24" end2="28" changelist="feda1d1a-00f8-417b-8768-83ebf4b2fd9c" />
+        <range start1="20" end1="20" start2="29" end2="30" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="29" end1="29" start2="39" end2="51" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="30" end1="30" start2="52" end2="54" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="35" end1="35" start2="59" end2="68" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="36" end1="36" start2="69" end2="70" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="37" end1="38" start2="71" end2="79" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="39" end1="39" start2="80" end2="87" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="41" end1="41" start2="89" end2="197" changelist="56d93896-dc1a-4184-9f69-035c2da94828" />
+        <range start1="45" end1="46" start2="201" end2="202" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="60" end1="60" start2="216" end2="218" changelist="2f1ca671-2df6-4245-9548-df08f5a3831c" />
+        <range start1="67" end1="68" start2="225" end2="226" changelist="feda1d1a-00f8-417b-8768-83ebf4b2fd9c" />
+        <range start1="71" end1="72" start2="229" end2="230" changelist="feda1d1a-00f8-417b-8768-83ebf4b2fd9c" />
+        <range start1="75" end1="76" start2="233" end2="234" changelist="feda1d1a-00f8-417b-8768-83ebf4b2fd9c" />
+      </ranges>
+    </file>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2gcWkBcZ6faeL9L8Tse53oylvgX" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -38,6 +67,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.farmer.executor": "Run",
+    "Python.game.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
@@ -46,6 +77,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "proofread",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -100,14 +132,30 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715997487750</updated>
-      <workItem from="1715997491817" duration="4581000" />
+      <workItem from="1715997491817" duration="15141000" />
+      <workItem from="1716033813763" duration="7036000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/src/settings.py</url>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CPG___2024$main.coverage" NAME="main Coverage Results" MODIFIED="1716007475927" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CPG___2024$main.coverage" NAME="main Coverage Results" MODIFIED="1716045214712" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CPG___2024$game.coverage" NAME="game Coverage Results" MODIFIED="1716017539302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/CPG___2024$farmer.coverage" NAME="farmer Coverage Results" MODIFIED="1716033656306" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/character" />
   </component>
 </project>

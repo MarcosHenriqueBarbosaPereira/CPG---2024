@@ -1,0 +1,2 @@
+class UnknownMovement(Exception):
+    pass
