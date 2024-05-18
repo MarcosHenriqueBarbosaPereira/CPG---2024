@@ -23,8 +23,8 @@ class Grass:
         for grass_model in range(1, 3, 1):
             grass_images[f'grass_{grass_model}'] = [
                 pg.image.load(
-                    self._sprites.get_filepath(f'Grass {grass_model}.gif')
-                ) for _ in range(2)
+                    self._sprites.get_filepath(f'Grass {grass_model}-{_ + 1}.png')
+                ).convert_alpha() for _ in range(5)
             ]
 
     def draw(self, screen: pg.Surface, model: Literal["grass_1", "grass_2"], y: int, x: int):

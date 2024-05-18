@@ -63,7 +63,6 @@ class Farmer(Character):
         pass
 
     def set_total_of_sprites(self):
-        print(self.last_dir)
         match self.last_dir:
             case 'forward':
                 self.total = 13
@@ -73,5 +72,3 @@ class Farmer(Character):
                 self.total = 9
             case 'left':
                 self.total = 9
-
-        print(self.total)

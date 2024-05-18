@@ -24,7 +24,8 @@ class WeedReaper:
         self._assets = FileGetter("assets")
 
         self._game_state = {
-            "is_over": False
+            "is_over": False,
+            "grass_positions": []
         }
 
         self._farmer = Farmer()
@@ -40,17 +41,44 @@ class WeedReaper:
         index_of_farmer_animation = 0
         last_key_pressed = None
 
-        random_grass_positions = []
-        for _ in range(10):
-            row = random.randrange(0, self.width)
-            col = random.randrange(0, self.height)
-
-            random_grass_positions.append((row, col))
-
+        self._generate_grass_positions()
         grass = Grass()
+
+        def _move_character(keyname):
+            nonlocal index_of_farmer_animation
+            nonlocal last_key_pressed
+
+            index_of_farmer_animation += 1
+            if last_key_pressed != event.key:
+                last_key_pressed = event.key
+                index_of_farmer_animation = 0
+            elif index_of_farmer_animation >= self._farmer.total:
+                index_of_farmer_animation = 0
+
+            self.move(keyname, index_of_farmer_animation)
 
         while self.is_running():
             self._main_game_screen.fill((0, 0, 0))
+
+            keys = pg.key.get_pressed()
+            if (
+                keys[pg.K_DOWN] or
+                keys[pg.K_UP] or
+                keys[pg.K_RIGHT] or
+                keys[pg.K_LEFT]
+            ) and not self._game_state["is_over"]:
+                if keys[pg.K_DOWN]:
+                    keyname = "down"
+                elif keys[pg.K_UP]:
+                    keyname = "up"
+                elif keys[pg.K_RIGHT]:
+                    keyname = "right"
+                elif keys[pg.K_LEFT]:
+                    keyname = "left"
+                else:
+                    raise KeyError()
+
+                _move_character(keyname)
 
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -60,15 +88,14 @@ class WeedReaper:
                 elif self._game_state["is_over"]:
                     pass
                 elif event.type == pg.KEYDOWN:
-                    index_of_farmer_animation += 1
-                    if last_key_pressed != event.key:
-                        last_key_pressed = event.key
-                        index_of_farmer_animation = 0
-                    elif index_of_farmer_animation >= self._farmer.total:
-                        index_of_farmer_animation = 0
-
-                    self.move(pg.key.name(event.key), index_of_farmer_animation)
+                    _move_character(pg.key.name(event.key))
             self._main_game_screen.blit(self._bg_image, (0, 0))
+
+            self.generate_grass(
+                self._game_state["grass_positions"],
+                grass
+            )
+            grass.move_grass()
 
             self._farmer.draw(
                 self._farmer.initial_sprite,
@@ -77,9 +104,6 @@ class WeedReaper:
                 self._farmer.current_position[1],
                 self._farmer.current_state
             )
-
-            self.generate_grass(random_grass_positions, grass)
-            grass.move_grass()
 
             if self._game_state["is_over"]:
                 self._show_loose_dialog_message()
@@ -158,14 +182,27 @@ class WeedReaper:
 
     def check_collision_with_borders(self, farmer_position: tuple) -> bool:
         collided = False
-        if farmer_position[0] > (self.width - 128) or farmer_position[0] < 0:
-            self._game_over()
-            collided = True
-        elif farmer_position[1] > (self.height - 128) or farmer_position[1] < 0:
+        margin = 64
+
+        if (
+            farmer_position[0] > (self.width - margin) or
+            farmer_position[0] < 0 or
+            farmer_position[1] > (self.height - margin) or
+            farmer_position[1] < 0
+        ):
             self._game_over()
             collided = True
 
         return collided
+
+    def _generate_grass_positions(self, quantity_of_grass: int = 100):
+        self._game_state["grass_positions"] = []
+
+        for _ in range(quantity_of_grass):
+            row = random.randrange(0, self.width)
+            col = random.randrange(0, self.height)
+
+            self._game_state["grass_positions"].append((row, col))
 
     def _game_over(self):
         self._game_state["is_over"] = True
@@ -219,6 +256,7 @@ class WeedReaper:
     def _resize(self):
         current_size = self._main_game_screen.get_size()
 
+        self._generate_grass_positions()
         self._bg_image = pg.transform.scale(self._bg_image, current_size)
 
     @property
