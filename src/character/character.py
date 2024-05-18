@@ -30,6 +30,18 @@ class Character:
             ) for index in range(total_of_images)
         ]
 
+    def load_sprite_sheet_attack(
+        self,
+        sheet_key: str,
+        sprite_sheet: str = None,
+        total_of_images: int = None,
+    ):
+        self.sprite_sheet[f"{sheet_key}_attack"] = [
+            pg.image.load(
+                self._sprites.get_filepath(f'{sprite_sheet}{index}.png')
+            ) for index in range(total_of_images)
+        ]
+
     @staticmethod
     def draw(
         sprite_sheet_config: list,
@@ -38,11 +50,13 @@ class Character:
         y: int,
         index_of_cells: int
     ):
-        if sprite_sheet_config is not None:
+        try:
             surface.blit(
                 sprite_sheet_config[index_of_cells],
                 (x, y,),
             )
+        except IndexError:
+            pass
 
     @abstractmethod
     def _config_character_status(self):
