@@ -9,8 +9,8 @@ screen = pg.display.set_mode((1270, 720), pg.RESIZABLE)  # Set the screen size
 bg = pg.image.load("src/assets/img/menu-background.png")  # Load the background image
 
 
-def load_options(opt: list):
-    for i, option in enumerate(opt):
+def load_options(option_list):
+    for i, option in enumerate(option_list):
         button = pg.Rect(screen.get_width() / 2, 300 + i * 100, 0, 0)
         pg.draw.rect(screen, (0, 0, 0), button)
         font = pg.font.Font("src/assets/fonts/EaseOfUse.ttf", 50)
@@ -19,7 +19,7 @@ def load_options(opt: list):
         screen.blit(text, text_rect)
 
     mouse_pos = pg.mouse.get_pos()
-    for i, option in enumerate(opt):
+    for i, option in enumerate(option_list):
         button = pg.Rect(screen.get_width() / 2 - 100, 300 + i * 100, 200, 50)
         if button.collidepoint(mouse_pos):
             pg.mouse.set_cursor(pg.SYSTEM_CURSOR_HAND)
@@ -53,7 +53,7 @@ def main_menu():
                         if option == 'Start Game':
                             start_game()
                         elif option == 'Options':
-                            pass
+                            options()
                         elif option == 'Quit':
                             pg.quit()
                             quit()
@@ -66,6 +66,31 @@ def start_game():
     game = WeedReaper("Weed Reaper", 600, 800)
     game.main_loop()
 
+
+def options():
+    while True:
+        screen.blit(bg, (0, 0))
+        logo = pg.image.load("src/assets/img/options.png")
+        screen.blit(logo, (screen.get_width() / 2 - logo.get_width() / 2, 100))
+
+        pg.display.set_caption("Options")
+        option_list = ['Volume', 'Back']
+
+        load_options(option_list)
+
+        for event in pg.event.get():
+            # Check for left mouse button click
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                mouse_pos = pg.mouse.get_pos()
+                for i, option in enumerate(option_list):
+                    button = pg.Rect(screen.get_width() / 2 - 100, 300 + i * 100, 200, 50)
+                    if button.collidepoint(mouse_pos):
+                        if option == 'Volume':
+                            pass
+                        elif option == 'Back':
+                            main_menu()
+
+        pg.display.update()
 
 
 if __name__ == '__main__':
