@@ -1,0 +1,2 @@
+MAX_FPS = 60
+MIN_FPS = 30
