@@ -1,4 +1,5 @@
 import random
+import sys
 
 import pygame as pg
 
@@ -116,7 +117,11 @@ class WeedReaper:
             )
 
             if self._game_state["is_over"]:
-                self._show_loose_dialog_message()
+                self._show_loose_dialog_message('Game Over!')
+
+                key = pg.key.get_pressed()
+                if key[pg.K_SPACE]:
+                    self._game_state["is_over"] = False
 
             pg.display.update()
             self._main_game_clock.tick(MAX_FPS)
@@ -220,30 +225,20 @@ class WeedReaper:
     def _game_over(self):
         self._game_state["is_over"] = True
 
-    def _show_loose_dialog_message(self):
-        font = pg.font.Font(None, 74)
-        message = "Que pena! Você perdeu!"
+    def _show_loose_dialog_message(self, message):
+        """ Function to display a popup message """
 
-        text_color = (255, 255, 255)
-        box_color = (255, 0, 0)
-        box_border_color = (255, 255, 255)
+        red = (255, 0, 0)
+        font = pg.font.Font("src/assets/fonts/EaseOfUse.ttf", 50)
+        width, height = self._main_game_screen.get_size()
+        screen = pg.display.set_mode((width, height))
+        popup_surface = pg.Surface((400, 200))
 
-        text = font.render(message, True, text_color)
-
-        text_rect = text.get_rect(
-            center=(
-                self._main_game_screen.get_width() / 2,
-                self._main_game_screen.get_height() / 2
-            )
-        )
-
-        box_rect = text_rect.inflate(20, 20)
-
-        pg.draw.rect(self._main_game_screen, box_color, box_rect)
-        pg.draw.rect(self._main_game_screen, box_border_color, box_rect, 2)
-
-        # Desenha o texto
-        self._main_game_screen.blit(text, text_rect)
+        text_surface = font.render(message, True, red)
+        text_rect = text_surface.get_rect(center=(200, 100))
+        popup_surface.blit(text_surface, text_rect)
+        screen.blit(popup_surface, (width // 2 - 200, height // 2 - 100))
+        pg.display.update()
 
     def _setup(self):
         pg.init()
@@ -261,7 +256,7 @@ class WeedReaper:
 
     def _load_assets(self):
         self._bg_image = pg.image.load(
-            self._assets.get_filepath("grass background.jpg")
+            self._assets.get_filepath("img\grass background.jpg")
         )
 
         self._resize()
