@@ -1,5 +1,4 @@
 import random
-import sys
 
 import pygame as pg
 
@@ -57,14 +56,16 @@ class WeedReaper:
             nonlocal last_key_pressed
 
             index_of_farmer_animation += 1
-            if last_key_pressed != event.key:
-                last_key_pressed = event.key
+            if last_key_pressed != keyname:
+                last_key_pressed = keyname
                 index_of_farmer_animation = 0
             elif index_of_farmer_animation >= self._farmer.total:
                 index_of_farmer_animation = 0
 
             self.move(keyname, index_of_farmer_animation)
 
+        is_attacking = False
+        allowed_keys_to_attack = ["right", "left", "up", "down", "forward", "backward"]
         while self.is_running():
             self._main_game_screen.fill((0, 0, 0))
 
@@ -87,16 +88,6 @@ class WeedReaper:
                     raise KeyError()
 
                 _move_character(keyname)
-
-            for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    self.stop()
-                elif event.type == pg.VIDEORESIZE:
-                    self._resize()
-                elif self._game_state["is_over"]:
-                    pass
-                elif event.type == pg.KEYDOWN:
-                    _move_character(pg.key.name(event.key))
             self._main_game_screen.blit(self._bg_image, (0, 0))
 
             self.generate_object_by_position_list(
@@ -108,13 +99,37 @@ class WeedReaper:
             self.generate_object_by_position_list("tree_positions", tree)
             self.generate_object_by_position_list("bush_positions", bush)
 
-            self._farmer.draw(
-                self._farmer.initial_sprite,
-                self._main_game_screen,
-                self._farmer.current_position[0],
-                self._farmer.current_position[1],
-                self._farmer.current_state
-            )
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.stop()
+                elif event.type == pg.VIDEORESIZE:
+                    self._resize()
+                elif self._game_state["is_over"]:
+                    pass
+                elif event.type == pg.KEYDOWN:
+                    key = getattr(event, 'key', None)
+                    if key is not None:
+                        keyname = pg.key.name(key)
+                        if keyname == "space" and last_key_pressed in allowed_keys_to_attack:
+                            is_attacking = True
+                            if last_key_pressed == 'down':
+                                last_key_pressed = 'backward'
+                            elif last_key_pressed == 'up':
+                                last_key_pressed = 'forward'
+
+                            if last_key_pressed is not None:
+                                self._farmer.attack(self._main_game_screen, last_key_pressed)
+                        else:
+                            _move_character(pg.key.name(key))
+
+            if not is_attacking:
+                self._farmer.draw(
+                    self._farmer.initial_sprite,
+                    self._main_game_screen,
+                    self._farmer.current_position[0],
+                    self._farmer.current_position[1],
+                    self._farmer.current_state
+                )
 
             if self._game_state["is_over"]:
                 self._show_loose_dialog_message('Game Over!')
@@ -124,6 +139,7 @@ class WeedReaper:
                     self._game_state["is_over"] = False
 
             pg.display.update()
+            is_attacking = False
             self._main_game_clock.tick(MAX_FPS)
 
     def generate_object_by_position_list(self, key_of_list: str, object_to_draw):
@@ -256,7 +272,7 @@ class WeedReaper:
 
     def _load_assets(self):
         self._bg_image = pg.image.load(
-            self._assets.get_filepath("img\grass background.jpg")
+            self._assets.get_filepath(r"img\grass background.jpg")
         )
 
         self._resize()

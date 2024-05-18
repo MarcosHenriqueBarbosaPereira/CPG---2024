@@ -14,7 +14,7 @@ class Farmer(Character):
         self.current_state = 0
 
         self._possible_movements = ['forward', 'backward', 'left', 'right']
-        self._sprite_sheet = ['Weed Reaper Front', 'Weed Reaper Back', 'Weed Reaper Left', 'Weed Reaper Right']  # , 'Weed Reaper Back']
+        self._sprite_sheet = ['Weed Reaper Front', 'Weed Reaper Back', 'Weed Reaper Left', 'Weed Reaper Right']
         self._total_of_sprites = [13, 13, 9, 9]
 
         for possible_movement, sprite_sheet, total in zip(
@@ -28,6 +28,21 @@ class Farmer(Character):
                 total
             )
 
+        self._possible_movements = ['right', 'left', 'forward', 'backward']
+        self._sprite_sheet = ['attack/Attack Right', 'attack/Attack Left', 'attack/Attack Back',
+                              'attack/Attack Front']
+        self._total_of_sprites = 5
+
+        for possible_attack, sprite_sheet in zip(
+            self._possible_movements,
+            self._sprite_sheet
+        ):
+            self.load_sprite_sheet_attack(
+                possible_attack,
+                sprite_sheet,
+                self._total_of_sprites
+            )
+
         self.initial_sprite = self.sprite_sheet['forward']
 
     def _config_character_status(self):
@@ -37,30 +52,14 @@ class Farmer(Character):
     def size(self):
         return 34
 
-    def move(self, to: Movement):
-        match to:
-            case Movement.FORWARD:
-                self._move_forward()
-            case Movement.BACKWARD:
-                self._move_backward()
-            case Movement.LEFT:
-                self._move_forward()
-            case Movement.RIGHT:
-                self._move_right()
-            case _:
-                raise UnknownMovement(to)
+    def attack(self, screen: pg.Surface, keyname):
+        images_of_attack = self.sprite_sheet[f"{keyname}_attack"]
+        x = self.current_position[0] - 64
+        y = self.current_position[1] - 64
 
-    def _move_forward(self):
-        pass
-
-    def _move_backward(self):
-        pass
-
-    def _move_left(self):
-        pass
-
-    def _move_right(self):
-        pass
+        for image in images_of_attack:
+            screen.blit(image, (x, y))
+            pg.display.flip()
 
     def set_total_of_sprites(self):
         match self.last_dir:
