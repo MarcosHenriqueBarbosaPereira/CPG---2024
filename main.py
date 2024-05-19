@@ -3,6 +3,7 @@ import os
 import pygame as pg
 
 from src.game import WeedReaper
+from src.settings import global_screen
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'  # Center the window
 window_width = 1270
@@ -10,6 +11,12 @@ window_height = 720
 screen = pg.display.set_mode((1270, 720), pg.RESIZABLE)  # Set the screen size
 
 bg = pg.image.load("src/assets/img/menu-background.png")  # Load the background image
+
+
+def resize():
+    """ Resize the background image to fit the screen """
+    global bg
+    bg = pg.transform.scale(bg, global_screen.get_size())
 
 
 def load_options(option_list):
@@ -33,6 +40,7 @@ def load_options(option_list):
 
 def main_menu():
     """ Main Menu Screen """
+    resize()
     pg.display.set_caption("Menu")
     menu_options = ['Start Game', 'Options', 'Quit']
 
@@ -60,6 +68,9 @@ def main_menu():
                         elif option == 'Quit':
                             pg.quit()
                             quit()
+
+            elif event.type == pg.VIDEORESIZE:
+                resize()
 
         pg.display.update()
 
