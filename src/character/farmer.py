@@ -53,6 +53,8 @@ class Farmer(Character):
         self.speed = 34
         self.strength = 0.3
 
+        self._max_of_life = self.life
+
     def attack(self, screen: pg.Surface, keyname):
         images_of_attack = self.sprite_sheet[f"{keyname}_attack"]
         x = self.current_position[0] - 64
@@ -72,3 +74,7 @@ class Farmer(Character):
                 self.total = 9
             case 'left':
                 self.total = 9
+
+    @property
+    def max_of_life(self):
+        return self._max_of_life

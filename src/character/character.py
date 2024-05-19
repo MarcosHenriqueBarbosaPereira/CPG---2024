@@ -70,6 +70,9 @@ class Character:
     def check_collision(self, other):
         return self.hitbox.colliderect(other.hitbox)
 
+    def check_collision_by_coordinate(self, x: float, y: float, size: tuple[float, float]):
+        return self.hitbox.colliderect(x, y, size[0], size[1])
+
     @abstractmethod
     def _config_character_status(self):
         raise NotImplementedError()
