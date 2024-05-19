@@ -150,11 +150,14 @@ class WeedReaper:
                     self._farmer.life > 0 and
                     datetime.now() - self._invincible_timer > timedelta(seconds=1)
                 ):
-                    row = random.randrange(0, self.width)
-                    col = random.randrange(0, self.height)
+                    row = random.randrange(100, self.width - 100)
+                    col = random.randrange(100, self.height - 100)
                     shit_fool.draw(self._main_game_screen, row, col)
 
-                    self._farmer.life += random.randrange(30, 80)
+                    self._farmer.life += random.randrange(
+                        random.randrange(0, 10),
+                        random.randrange(11, 30)
+                    )
                     if self._farmer.life >= 0:
                         self._farmer.life = self._farmer.max_of_life
 
@@ -190,24 +193,13 @@ class WeedReaper:
                     if self._farmer.life <= 0:
                         self._game_state["is_over"] = True
 
-            # if has_collision_with_healing_item is not None:
-            #     self._bushes = list(
-            #         filter(
-            #             lambda x: x.id == has_collision_with_healing_item.id,
-            #             self._bushes
-            #         )
-            #     )
-            #
-            #     has_collision_with_healing_item = None
-            #     self._main_game_screen.fill((0, 0, 0))
-
             if self._game_state["is_over"]:
                 self._show_loose_dialog_message()
-                self._farmer.life = 1000
 
                 key = pg.key.get_pressed()
                 if key[pg.K_SPACE]:
                     self.restart_game()
+                    self._farmer.life = self._farmer.max_of_life
                 elif key[pg.K_ESCAPE]:
                     self.stop()
                     self.main_menu()
@@ -215,7 +207,7 @@ class WeedReaper:
                     self._farmer.life = self._farmer.max_of_life
 
             percentage = (self._farmer.life * 250) / self._farmer.max_of_life
-            self.draw_life_bar(percentage)
+            self.draw_life_bar(percentage if percentage >= 0 else 0)
 
             pg.display.update()
             is_attacking = False
@@ -226,10 +218,11 @@ class WeedReaper:
         text_writer = pg.font.SysFont('Arial', 16, bold=True, italic=True)
 
         text_surface = text_writer.render(f"HP: {percentage}", True, (0, 0, 0))
-        text_rect = text_surface.get_rect()
 
         self._main_game_screen.blit(popup_surface, (20, 20))
-        self._main_game_screen.fill((30, 255, 20), (20, 20, percentage, 30))
+        pg.draw.rect(self._main_game_screen, (150, 160, 140), (15, 15, 260, 40), 0, 4)
+        pg.draw.rect(self._main_game_screen, (255, 0, 0), (20, 20, 250, 30), 0, 4)
+        pg.draw.rect(self._main_game_screen, (30, 255, 20), (20, 20, percentage, 30), 0, 4)
 
         self._main_game_screen.blit(text_surface, (30, 26))
         pg.display.update()
