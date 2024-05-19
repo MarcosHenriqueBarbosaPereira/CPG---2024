@@ -1,4 +1,5 @@
 import random
+import sys
 
 import pygame as pg
 
@@ -16,7 +17,9 @@ class WeedReaper:
         window_title: str,
         window_height: int,
         window_width: int,
+        main_menu: callable
     ):
+        self.main_menu = main_menu
         self.window_title = window_title
 
         self._size = (window_width, window_height)
@@ -34,11 +37,18 @@ class WeedReaper:
         self._farmer = Farmer()
         self._setup()
 
+
     def is_running(self) -> bool:
         return self._running
 
     def stop(self):
         self._running = False
+
+    def restart_game(self):
+        """ Reset game state to initial values """
+        self._game_state["is_over"] = False
+        self._farmer.current_position = (self.width // 2, self.height // 2)
+        self._farmer.current_state = 0
 
     def main_loop(self):
         index_of_farmer_animation = 0
@@ -132,11 +142,14 @@ class WeedReaper:
                 )
 
             if self._game_state["is_over"]:
-                self._show_loose_dialog_message('Game Over!')
+                self._show_loose_dialog_message()
 
                 key = pg.key.get_pressed()
                 if key[pg.K_SPACE]:
-                    self._game_state["is_over"] = False
+                    self.restart_game()
+                elif key[pg.K_ESCAPE]:
+                    self.stop()
+                    self.main_menu
 
             pg.display.update()
             is_attacking = False
@@ -241,20 +254,24 @@ class WeedReaper:
     def _game_over(self):
         self._game_state["is_over"] = True
 
-    def _show_loose_dialog_message(self, message):
-        """ Function to display a popup message """
+    def _show_loose_dialog_message(self):
+        """ Function to display a popup message inside game screen """
 
-        red = (255, 0, 0)
-        font = pg.font.Font("src/assets/fonts/EaseOfUse.ttf", 50)
         width, height = self._main_game_screen.get_size()
-        screen = pg.display.set_mode((width, height))
-        popup_surface = pg.Surface((400, 200))
 
-        text_surface = font.render(message, True, red)
-        text_rect = text_surface.get_rect(center=(200, 100))
-        popup_surface.blit(text_surface, text_rect)
-        screen.blit(popup_surface, (width // 2 - 200, height // 2 - 100))
-        pg.display.update()
+        font = pg.font.Font("src/assets/fonts/EaseOfUse.ttf", 50)
+        font_small = pg.font.Font("src/assets/fonts/EaseOfUse.ttf", 20)
+
+        text_game_over = font.render("Game Over", True, (255, 0, 0))
+        text_game_over_rect = text_game_over.get_rect(center=(width // 2, height // 2 - 50))
+
+        text_retry = font_small.render("Press SPACE to Retry or ESC to quit", True, (255, 255, 255))
+        text_retry_rect = text_retry.get_rect(center=(width // 2, height // 2 + 20))
+
+        self._main_game_screen.blit(text_game_over, text_game_over_rect)
+        self._main_game_screen.blit(text_game_over, text_game_over_rect)
+        self._main_game_screen.blit(text_retry, text_retry_rect)
+        pg.display.flip()
 
     def _setup(self):
         pg.init()
@@ -272,7 +289,7 @@ class WeedReaper:
 
     def _load_assets(self):
         self._bg_image = pg.image.load(
-            self._assets.get_filepath(r"img\grass background.jpg")
+            self._assets.get_filepath("img/grass-background.png")
         )
 
         self._resize()

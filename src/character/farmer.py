@@ -3,6 +3,7 @@ import pygame as pg
 from src.character.actions import Movement
 from src.character.character import Character
 from src.exceptions import UnknownMovement
+from src.settings import global_screen
 
 
 class Farmer(Character):
@@ -10,7 +11,7 @@ class Farmer(Character):
         super().__init__()
         self.total = 0
 
-        self.current_position = (0, 0)
+        self.current_position = (global_screen.get_width() / 2, global_screen.get_height() / 2)
         self.current_state = 0
 
         self._possible_movements = ['forward', 'backward', 'left', 'right']

@@ -4,6 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+    <list default="true" id="56d93896-dc1a-4184-9f69-035c2da94828" name="Changes" comment=":sparkles: feat: Options Menu">
+      <change afterPath="$PROJECT_DIR$/src/assets/img/grass-background.png" afterDir="false" />
     <list default="true" id="56d93896-dc1a-4184-9f69-035c2da94828" name="Changes" comment="feat: grass generation and hold button to move character">
       <change afterPath="$PROJECT_DIR$/src/sprites/attack/Attack Back0.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/sprites/attack/Attack Back1.png" afterDir="false" />
@@ -28,6 +30,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/CPG - 2024.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CPG - 2024.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/img/grass background.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contants/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/character/character.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/character/character.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/character/farmer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/character/farmer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/contants/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/__init__.py" afterDir="false" />
@@ -66,6 +71,21 @@
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/MarcosHenriqueBarbosaPereira/CPG---2024.git&quot;,
     &quot;accountId&quot;: &quot;3e8872af-1e93-41f9-acaf-39c11a483adb&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MarcosHenriqueBarbosaPereira/CPG---2024.git",
+    "accountId": "7c8b9238-9c5d-4593-bfd8-7bedf13fae81"
+  },
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
+    },
+    "owner": "MarcosHenriqueBarbosaPereira",
+    "repository": "CPG---2024"
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -77,6 +97,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.farmer.executor": "Run",
+    "Python.game.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feat-game-over-screen-functionality",
+    "last_opened_file_path": "C:/Users/dimit/OneDrive/Documentos/Projects/CPG---2024",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Python.farmer.executor&quot;: &quot;Run&quot;,
@@ -127,6 +162,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -148,6 +184,7 @@
       <updated>1715997487750</updated>
       <workItem from="1715997491817" duration="15141000" />
       <workItem from="1716033813763" duration="7036000" />
+      <workItem from="1716045967911" duration="25720000" />
       <workItem from="1716045965404" duration="20006000" />
     </task>
     <task id="LOCAL-00001" summary="feat: grass generation and hold button to move character">
@@ -166,6 +203,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716054968351</updated>
     </task>
+    <task id="LOCAL-00002" summary=":sparkles: feat: Options Menu">
+      <option name="closed" value="true" />
+      <created>1716063094492</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1716063094492</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <option name="localTasksCounter" value="3" />
     <servers />
   </component>
@@ -175,6 +221,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: grass generation and hold button to move character" />
     <option name="LAST_COMMIT_MESSAGE" value="feat: grass generation and hold button to move character" />
+    <MESSAGE value=":sparkles: feat: Main Screen Functionality" />
+    <MESSAGE value=":sparkles: feat: Options Menu" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: feat: Options Menu" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -188,6 +237,8 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/CPG___2024$main.coverage" NAME="main Coverage Results" MODIFIED="1716076807813" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CPG___2024$game.coverage" NAME="game Coverage Results" MODIFIED="1716017539302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/CPG___2024$farmer.coverage" NAME="farmer Coverage Results" MODIFIED="1716033656306" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/character" />
     <SUITE FILE_PATH="coverage/CPG___2024$game.coverage" NAME="game Coverage Results" MODIFIED="1716017539302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/CPG___2024$main.coverage" NAME="main Coverage Results" MODIFIED="1716067375904" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

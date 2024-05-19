@@ -5,7 +5,10 @@ import pygame as pg
 from src.game import WeedReaper
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'  # Center the window
+window_width = 1270
+window_height = 720
 screen = pg.display.set_mode((1270, 720), pg.RESIZABLE)  # Set the screen size
+
 bg = pg.image.load("src/assets/img/menu-background.png")  # Load the background image
 
 
@@ -63,7 +66,12 @@ def main_menu():
 
 def start_game():
     """ Start the game """
-    game = WeedReaper("Weed Reaper", 600, 800)
+    game = WeedReaper(
+        "Weed Reaper",
+        window_height,
+        window_width,
+        main_menu
+    )
     game.main_loop()
 
 
