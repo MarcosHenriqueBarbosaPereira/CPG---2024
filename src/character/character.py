@@ -11,12 +11,20 @@ class Character:
         self._strength = 10
         self._speed = 1
 
+        self.size = (100, 100)
+        self.current_position = (0, 0)
+
         self.sprite_sheet = {}
 
         self._sprites = FileGetter('sprites')
         self.last_dir = 'forward'
 
         self._config_character_status()
+
+        self.hitbox = pg.Rect(self.current_position, self.size)
+
+    def update_hitbox(self):
+        self.hitbox.topleft = self.current_position
 
     def load_sprite_sheet(
         self,
@@ -42,8 +50,8 @@ class Character:
             ) for index in range(total_of_images)
         ]
 
-    @staticmethod
     def draw(
+        self,
         sprite_sheet_config: list,
         surface: pg.Surface,
         x: int,
@@ -55,8 +63,12 @@ class Character:
                 sprite_sheet_config[index_of_cells],
                 (x, y,),
             )
+            self.update_hitbox()
         except IndexError:
             pass
+
+    def check_collision(self, other):
+        return self.hitbox.colliderect(other.hitbox)
 
     @abstractmethod
     def _config_character_status(self):
@@ -85,4 +97,3 @@ class Character:
     @speed.setter
     def speed(self, speed):
         self._speed = speed
-

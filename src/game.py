@@ -3,7 +3,9 @@ import sys
 
 import pygame as pg
 
+from datetime import datetime, timedelta
 from src.character.farmer import Farmer
+from src.character.enemy import Enemy
 from src.contants import MAX_FPS
 from src.scenary.grass import Grass
 from src.scenary.tree import Tree
@@ -24,19 +26,22 @@ class WeedReaper:
 
         self._size = (window_width, window_height)
         self._running = False
+        self._invincible_timer = datetime.now()
 
         self._assets = FileGetter("assets")
 
         self._game_state = {
             "is_over": False,
+            "is_paused": False,
+            "is_started": False,
             "grass_positions": [],
             "tree_positions": [],
             "bush_positions": []
         }
 
         self._farmer = Farmer()
+        self._enemy = [Enemy() for _ in range(5)]
         self._setup()
-
 
     def is_running(self) -> bool:
         return self._running
@@ -141,8 +146,28 @@ class WeedReaper:
                     self._farmer.current_state
                 )
 
+            for enemy in self._enemy:
+                enemy.update_position(self._farmer.current_position)
+                enemy.draw(
+                    enemy.sprite_sheet["move"],
+                    self._main_game_screen,
+                    enemy.current_position[0],
+                    enemy.current_position[1],
+                    enemy.current_state
+                )
+
+                if self._farmer.check_collision(enemy) and self._farmer.life > 0 and datetime.now() - self._invincible_timer > timedelta(seconds=1):
+                    self._farmer.life -= enemy.strength
+                    self._invincible_timer = datetime.now()
+
+                    print(self._farmer.life)
+
+                    if self._farmer.life <= 0:
+                        self._game_state["is_over"] = True
+
             if self._game_state["is_over"]:
                 self._show_loose_dialog_message()
+                self._farmer.life = 1000
 
                 key = pg.key.get_pressed()
                 if key[pg.K_SPACE]:
@@ -161,6 +186,10 @@ class WeedReaper:
                 object_to_draw.draw(self._main_game_screen, "grass_1", pos[1], pos[0])
             else:
                 object_to_draw.draw(self._main_game_screen, pos[1], pos[0])
+
+    def generate_grass(self, grass_positions: list, grass: Grass):
+        for pos in grass_positions:
+            grass.draw(self._main_game_screen, "grass_1", pos[1], pos[0])
 
     def move(self, key, index):
         speed_in_y = 0

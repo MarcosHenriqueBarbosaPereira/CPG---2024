@@ -1,6 +1,6 @@
 import pygame as pg
 
-from src.character.actions import Movement
+
 from src.character.character import Character
 from src.exceptions import UnknownMovement
 from src.settings import global_screen
@@ -13,10 +13,13 @@ class Farmer(Character):
 
         self.current_position = (global_screen.get_width() / 2, global_screen.get_height() / 2)
         self.current_state = 0
+        self.size = (128, 128)
 
         self._possible_movements = ['forward', 'backward', 'left', 'right']
         self._sprite_sheet = ['Weed Reaper Front', 'Weed Reaper Back', 'Weed Reaper Left', 'Weed Reaper Right']
         self._total_of_sprites = [13, 13, 9, 9]
+
+        self.hitbox = pg.Rect(self.current_position, self.size)
 
         for possible_movement, sprite_sheet, total in zip(
             self._possible_movements,
@@ -47,11 +50,8 @@ class Farmer(Character):
         self.initial_sprite = self.sprite_sheet['forward']
 
     def _config_character_status(self):
-        self.speed = 1 * self.size()
+        self.speed = 34
         self.strength = 0.3
-
-    def size(self):
-        return 34
 
     def attack(self, screen: pg.Surface, keyname):
         images_of_attack = self.sprite_sheet[f"{keyname}_attack"]
