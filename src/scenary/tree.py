@@ -1,19 +1,20 @@
 import uuid
-
+import random
 import pygame as pg
 
 from src.utils.path import FileGetter
 
-        self.hitbox = pg.Rect((x, y), self.tree.get_size())
-        self.current_position = (x, y)
+
 class Tree:
-    def __init__(self, name: str):
-        self._assets = FileGetter("assets")
+    def __init__(self):
+        self.current_position = (random.randrange(100, 1160), random.randrange(100, 620))
+        self.size = (100,100)
+        self._assets = FileGetter("assets/img")
         self.tree = pg.image.load(
-            self._assets.get_filepath(name)
+            self._assets.get_filepath("tree.png")
         )
 
-        self._hit_box = None
+        self.hitbox = pg.Rect(self.current_position, self.size)
 
     def draw(
         self,
@@ -23,15 +24,16 @@ class Tree:
     ):
         screen.blit(self.tree, (x, y))
 
-        self._hit_box = pg.Rect((x, y), self.tree.get_size())
+        # self._hitbox = pg.Rect((x, y), self.tree.get_size())
+        self.current_position = (x, y)
 
 
 class Bush:
     def __init__(self):
         self.current_position = None
-        self._assets = FileGetter("assets")
+        self._assets = FileGetter("assets/img")
         self.tree = pg.image.load(
-            self._assets.get_filepath("Arbusto.png")
+            self._assets.get_filepath("bush.png")
         )
 
         self.id = str(uuid.uuid4())
@@ -45,3 +47,6 @@ class Bush:
         y: int,
     ):
         screen.blit(self.tree, (x, y))
+
+        self.hitbox = pg.Rect((x, y), self.tree.get_size())
+        self.current_position = (x, y)

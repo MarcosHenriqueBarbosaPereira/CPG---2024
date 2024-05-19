@@ -2,26 +2,27 @@ from src.character import character
 import pygame as pg
 
 
-class Enemy(character.Character):
+
+class Boss(character.Character):
     def __init__(self, x, y):
         super().__init__()
 
         self.current_state = 0
         self.current_position = (x, y)
-        self.size = (40, 40)
+        self.size = (200, 200)
 
         self._config_character_status()
 
-        self.load_sprite_sheet("move", "Mordedora", 5)
+        self.load_sprite_sheet("move", "Boss", 5)
 
         self.initial_sprite = self.sprite_sheet["move"][0]
 
         self.hitbox = pg.Rect(self.current_position, self.size)
 
     def _config_character_status(self):
-        self.speed = 3
-        self.strength = 50
-        self.life = 50
+        self.speed = 1
+        self.strength = 350
+        self.life = 1000
 
     def update_position(self, farmer_position):
         # Atualiza a posição do inimigo para perseguir o Farmer

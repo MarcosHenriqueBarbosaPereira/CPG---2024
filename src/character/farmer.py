@@ -13,7 +13,7 @@ class Farmer(Character):
 
         self.current_position = (global_screen.get_width() / 2, global_screen.get_height() / 2)
         self.current_state = 0
-        self.size = (128, 128)
+        self.size = (70, 100)
 
         self._possible_movements = ['forward', 'backward', 'left', 'right']
         self._sprite_sheet = ['Weed Reaper Front', 'Weed Reaper Back', 'Weed Reaper Left', 'Weed Reaper Right']
@@ -48,14 +48,51 @@ class Farmer(Character):
             )
 
         self.initial_sprite = self.sprite_sheet['forward']
+        self.attacking = False
+        self.attack_hitbox = None
 
     def _config_character_status(self):
         self.speed = 34
-        self.strength = 0.3
+        self.strength = 35
 
         self._max_of_life = self.life
 
     def attack(self, screen: pg.Surface, keyname):
+        self.attacking = True
+        attack_range = 100
+
+        match self.last_dir:
+            case 'forward':
+                self.attack_hitbox = pg.Rect(
+                    self.current_position[0],
+                    self.current_position[1] + self.size[1],
+                    self.size[0],
+                    attack_range
+                )
+            case 'backward':
+                self.attack_hitbox = pg.Rect(
+                    self.current_position[0],
+                    self.current_position[1] - attack_range,
+                    self.size[0],
+                    attack_range
+                )
+
+            case 'right':
+                self.attack_hitbox = pg.Rect(
+                    self.current_position[0] + self.size[0],
+                    self.current_position[1],
+                    attack_range,
+                    self.size[1]
+                )
+
+            case 'left':
+                self.attack_hitbox = pg.Rect(
+                    self.current_position[0] - attack_range,
+                    self.current_position[1],
+                    attack_range,
+                    self.size[0]
+                )
+
         images_of_attack = self.sprite_sheet[f"{keyname}_attack"]
         x = self.current_position[0] - 64
         y = self.current_position[1] - 64
@@ -63,6 +100,10 @@ class Farmer(Character):
         for image in images_of_attack:
             screen.blit(image, (x, y))
             pg.display.flip()
+
+    def end_attack(self):
+        self.attacking = False
+        self.attack_hitbox = None
 
     def set_total_of_sprites(self):
         match self.last_dir:
