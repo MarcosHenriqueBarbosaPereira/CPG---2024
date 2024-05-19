@@ -1,6 +1,4 @@
 import random
-import sys
-
 import pygame as pg
 
 from datetime import datetime, timedelta
@@ -32,8 +30,6 @@ class WeedReaper:
 
         self._game_state = {
             "is_over": False,
-            "is_paused": False,
-            "is_started": False,
             "grass_positions": [],
             "tree_positions": [],
             "bush_positions": []
@@ -63,8 +59,8 @@ class WeedReaper:
         self._generate_random_positions("tree_positions", 10)
         self._generate_random_positions("bush_positions", 12)
         grass = Grass()
-        tree = Tree("Arvore.png")
-        bush = Tree("Arbusto.png")
+        tree = Tree("img/tree.png")
+        bush = Tree("img/bush.png")
 
         def _move_character(keyname: str):
             nonlocal index_of_farmer_animation
@@ -156,7 +152,11 @@ class WeedReaper:
                     enemy.current_state
                 )
 
-                if self._farmer.check_collision(enemy) and self._farmer.life > 0 and datetime.now() - self._invincible_timer > timedelta(seconds=1):
+                if (
+                        self._farmer.check_collision(enemy)
+                        and self._farmer.life > 0
+                        and datetime.now() - self._invincible_timer > timedelta(seconds=1)
+                ):
                     self._farmer.life -= enemy.strength
                     self._invincible_timer = datetime.now()
 

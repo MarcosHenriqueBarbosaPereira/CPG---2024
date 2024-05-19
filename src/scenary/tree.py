@@ -17,5 +17,3 @@ class Tree:
         y: int,
     ):
         screen.blit(self.tree, (x, y))
-
-

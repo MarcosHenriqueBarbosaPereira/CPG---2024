@@ -1,9 +1,13 @@
 import os
+import threading
+import time
 
 import pygame as pg
+from pygame import mixer
 
 from src.game import WeedReaper
 from src.settings import global_screen
+
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'  # Center the window
 window_width = 1270
@@ -77,6 +81,7 @@ def main_menu():
 
 def start_game():
     """ Start the game """
+
     game = WeedReaper(
         "Weed Reaper",
         window_height,
@@ -112,5 +117,33 @@ def options():
         pg.display.update()
 
 
-if __name__ == '__main__':
+class Speaker:
+
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def play_sound():
+        try:
+            mixer.init()
+            mixer.music.load("src/assets/sound/soundtrack.mp3")
+            mixer.music.play()
+            print("Playing music...")
+            while mixer.music.get_busy():
+                time.sleep(1)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+
+def play_music_in_background():
+    speaker = Speaker()
+    speaker.play_sound()
+
+
+if __name__ == "__main__":
+    music_thread = threading.Thread(target=play_music_in_background)
+    music_thread.start()
+
     main_menu()
+
+    music_thread.join()
