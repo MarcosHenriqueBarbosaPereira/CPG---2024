@@ -26,6 +26,8 @@ class WeedReaper:
 
         self._game_state = {
             "is_over": False,
+            "is_paused": False,
+            "is_started": False,
             "grass_positions": [],
             "tree_positions": [],
             "bush_positions": []
