@@ -23,6 +23,8 @@ class Character:
 
         self.hitbox = pg.Rect(self.current_position, self.size)
 
+        self.last_sprite_on_screen = None
+
     def update_hitbox(self):
         self.hitbox.topleft = self.current_position
 
@@ -59,11 +61,15 @@ class Character:
         index_of_cells: int
     ):
         try:
-            surface.blit(
+            sprite = surface.blit(
                 sprite_sheet_config[index_of_cells],
                 (x, y,),
             )
-            self.update_hitbox()
+
+            self.last_sprite_on_screen = sprite
+
+            if self.hitbox is not None:
+                self.update_hitbox()
         except IndexError:
             pass
 

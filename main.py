@@ -113,10 +113,6 @@ def options():
 
         pg.display.update()
 
-
-
-
-
 def play_music_in_background():
     speaker = Speaker()
     speaker.play_sound()
