@@ -4,8 +4,7 @@ import pygame as pg
 
 from src.utils.path import FileGetter
 
-        self.hitbox = pg.Rect((x, y), self.tree.get_size())
-        self.current_position = (x, y)
+
 class Tree:
     def __init__(self, name: str):
         self._assets = FileGetter("assets")
@@ -31,7 +30,7 @@ class Bush:
         self.current_position = None
         self._assets = FileGetter("assets")
         self.tree = pg.image.load(
-            self._assets.get_filepath("Arbusto.png")
+            self._assets.get_filepath("img/bush.png")
         )
 
         self.id = str(uuid.uuid4())
@@ -45,3 +44,6 @@ class Bush:
         y: int,
     ):
         screen.blit(self.tree, (x, y))
+
+        self.hitbox = pg.Rect((x, y), self.tree.get_size())
+        self.current_position = (x, y)
