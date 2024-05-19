@@ -188,8 +188,6 @@ class WeedReaper:
                     self._farmer.life -= enemy.strength
                     self._invincible_timer = datetime.now()
 
-                    print(self._farmer.life)
-
                     if self._farmer.life <= 0:
                         self._game_state["is_over"] = True
 
@@ -209,6 +207,9 @@ class WeedReaper:
             percentage = (self._farmer.life * 250) / self._farmer.max_of_life
             self.draw_life_bar(percentage if percentage >= 0 else 0)
 
+            points = 0
+            self.draw_points(points if points >= 0 else 0)
+
             pg.display.update()
             is_attacking = False
             self._main_game_clock.tick(MAX_FPS)
@@ -226,6 +227,12 @@ class WeedReaper:
 
         self._main_game_screen.blit(text_surface, (30, 26))
         pg.display.update()
+
+    def draw_points(self, points: int = 0):
+        text_writer = pg.font.SysFont('Arial', 16, bold=True, italic=True)
+
+        text_surface = text_writer.render(f"Pontuação: {points}", True, (0, 0, 0))
+        self._main_game_screen.blit(text_surface, (self._main_game_screen.get_width() - 180, 20))
 
     def _show_loose_dialog_message(self, message):
         """ Function to display a popup message """
