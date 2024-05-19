@@ -1,4 +1,5 @@
 import random
+
 import pygame as pg
 
 from datetime import datetime, timedelta
@@ -6,7 +7,7 @@ from src.character.farmer import Farmer
 from src.character.enemy import Enemy
 from src.contants import MAX_FPS
 from src.scenary.grass import Grass
-from src.scenary.tree import Tree
+from src.scenary.tree import Tree, Bush
 from src.utils.path import FileGetter
 from src.settings import global_screen
 
@@ -37,6 +38,7 @@ class WeedReaper:
 
         self._farmer = Farmer()
         self._enemy = [Enemy() for _ in range(5)]
+        self._bushes = [Bush() for _ in range(5)]
         self._setup()
 
     def is_running(self) -> bool:
@@ -77,6 +79,14 @@ class WeedReaper:
 
         is_attacking = False
         allowed_keys_to_attack = ["right", "left", "up", "down", "forward", "backward"]
+
+        for shit_fool in self._bushes:
+            row = random.randrange(0, self.width)
+            col = random.randrange(0, self.height)
+
+            shit_fool.draw(self._main_game_screen, row, col)
+
+        percentage = 1  # 0 until 1
         while self.is_running():
             self._main_game_screen.fill((0, 0, 0))
 
@@ -103,12 +113,10 @@ class WeedReaper:
 
             self.generate_object_by_position_list(
                 "grass_positions",
-                grass
+                grass,
             )
-            grass.move_grass()
 
             self.generate_object_by_position_list("tree_positions", tree)
-            self.generate_object_by_position_list("bush_positions", bush)
 
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -132,6 +140,23 @@ class WeedReaper:
                                 self._farmer.attack(self._main_game_screen, last_key_pressed)
                         else:
                             _move_character(pg.key.name(key))
+
+            for shit_fool in self._bushes:
+                shit_fool.draw(self._main_game_screen, shit_fool.current_position[0], shit_fool.current_position[1])
+
+            for shit_fool in self._bushes:
+                if (
+                    self._farmer.check_collision(shit_fool) and
+                    self._farmer.life > 0 and
+                    datetime.now() - self._invincible_timer > timedelta(seconds=1)
+                ):
+                    row = random.randrange(0, self.width)
+                    col = random.randrange(0, self.height)
+                    shit_fool.draw(self._main_game_screen, row, col)
+
+                    self._farmer.life += random.randrange(30, 80)
+                    if self._farmer.life >= 0:
+                        self._farmer.life = self._farmer.max_of_life
 
             if not is_attacking:
                 self._farmer.draw(
@@ -165,6 +190,17 @@ class WeedReaper:
                     if self._farmer.life <= 0:
                         self._game_state["is_over"] = True
 
+            # if has_collision_with_healing_item is not None:
+            #     self._bushes = list(
+            #         filter(
+            #             lambda x: x.id == has_collision_with_healing_item.id,
+            #             self._bushes
+            #         )
+            #     )
+            #
+            #     has_collision_with_healing_item = None
+            #     self._main_game_screen.fill((0, 0, 0))
+
             if self._game_state["is_over"]:
                 self._show_loose_dialog_message()
                 self._farmer.life = 1000
@@ -174,11 +210,44 @@ class WeedReaper:
                     self.restart_game()
                 elif key[pg.K_ESCAPE]:
                     self.stop()
-                    self.main_menu
+                    self.main_menu()
+                    self._game_state["is_over"] = False
+                    self._farmer.life = self._farmer.max_of_life
+
+            percentage = (self._farmer.life * 250) / self._farmer.max_of_life
+            self.draw_life_bar(percentage)
 
             pg.display.update()
             is_attacking = False
             self._main_game_clock.tick(MAX_FPS)
+
+    def draw_life_bar(self, percentage: float = 250):
+        popup_surface = pg.Surface((250, 30))
+        text_writer = pg.font.SysFont('Arial', 16, bold=True, italic=True)
+
+        text_surface = text_writer.render(f"HP: {percentage}", True, (0, 0, 0))
+        text_rect = text_surface.get_rect()
+
+        self._main_game_screen.blit(popup_surface, (20, 20))
+        self._main_game_screen.fill((30, 255, 20), (20, 20, percentage, 30))
+
+        self._main_game_screen.blit(text_surface, (30, 26))
+        pg.display.update()
+
+    def _show_loose_dialog_message(self, message):
+        """ Function to display a popup message """
+
+        red = (255, 0, 0)
+        font = pg.font.Font("src/assets/fonts/EaseOfUse.ttf", 50)
+        width, height = self._main_game_screen.get_size()
+        screen = pg.display.set_mode((width, height))
+        popup_surface = pg.Surface((400, 200))
+
+        text_surface = font.render(message, True, red)
+        text_rect = text_surface.get_rect(center=(200, 100))
+        popup_surface.blit(text_surface, text_rect)
+        screen.blit(popup_surface, (width // 2 - 200, height // 2 - 100))
+        pg.display.update()
 
     def generate_object_by_position_list(self, key_of_list: str, object_to_draw):
         for pos in self._game_state[key_of_list]:
@@ -282,6 +351,7 @@ class WeedReaper:
 
     def _game_over(self):
         self._game_state["is_over"] = True
+        self._farmer.life = 1000 * 0.33
 
     def _show_loose_dialog_message(self):
         """ Function to display a popup message inside game screen """
@@ -318,7 +388,7 @@ class WeedReaper:
 
     def _load_assets(self):
         self._bg_image = pg.image.load(
-            self._assets.get_filepath("img/grass-background.png")
+            self._assets.get_filepath(r"img/grass-background.png")
         )
 
         self._resize()
